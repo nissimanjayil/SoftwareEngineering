@@ -5,7 +5,7 @@
 
 •	Requirements: To implement a function that can calculate the lowest common ancestor in a graph, that may be structured as a binary tree. The grading focus is on your test code.
 
-•	Implemented in JAVA and JUNIT Test is used.
+•	Implemented in JAVA and JUNIT Test
 
 
                                                      Lowest Common Ancestor 2:

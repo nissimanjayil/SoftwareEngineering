@@ -1,11 +1,17 @@
 import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
+
+
 
 @RunWith(JUnit4.class)
 public class LCATEST {
@@ -22,6 +28,13 @@ public class LCATEST {
 		assertEquals(3,tree.right.data);
 		assertEquals(1,tree.data);
 		
+	}
+	
+	@Test
+	public void testNull(){
+		LCA tree = new LCA();
+		tree.root=null;
+		assertEquals("null",-1,tree.findLCA(1,2));
 	}
 	
 	@Test
@@ -101,5 +114,7 @@ public class LCATEST {
 		assertEquals(-1,lca.findLCA(-3, -4));
 		assertEquals(-2,lca.findLCA(-2, -4));
 	}
+	
+	
 	
 }

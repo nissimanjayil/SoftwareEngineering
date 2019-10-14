@@ -1,118 +1,163 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-
-//Code from https://www.techiedelight.com/check-given-digraph-dag-directed-acyclic-graph-not/
-//This stores the graphs edges
-class Edge{
-	int source, dest;
-	
-	public Edge(int source,int  dest){
-		this.source=source;
-		this.dest=dest;
-	}
-}
-class Graph{
-	List<List<Integer>> adjList = null;
-	
-	Graph(List<Edge>edges,int N){
-		adjList = new ArrayList<>(N);
-		
-		for(int i=0;i<N;i++){
-			adjList.add(i,new ArrayList<>());
+// reference: https://github.com/dowlind1/CS3012/blob/DAG/DAG
+public class LCADAG{
+        private int V;//# of vertices in graph
+        private int E;//# of edges in graph
+        private int[][] adj; //adjacency list for vertex v - changed to 2D array
+        private int[] outdegree;//outdegree of vertex v
+        private int[] indegree; // indegree of vertex v
+        private int[] visited;  //vertices that have been visited
+       
+    //constructor to initialize and empty graph with size V
+    public LCADAG(int V){
+        if(V<0){
+            throw new IllegalArgumentException("Number of vertices in the DAG must be greater than 0.");
+        }
+        else{
+            this.V = V;
+            this.E = 0;
+            indegree = new int[V];
+            indegree = new int[V];
+	    outdegree = new int[V];
+	    visited = new int[V];
+	    adj = new int[V][V];
+	    for(int i = 0; i<V; i++){//sets up an empty graph in 2D array
+		for(int j=0;j<V;j++){
+		    adj[i][j] = 0;
 		}
-		
-		for(Edge edge:edges){
-			adjList.get(edge.source).add(edge.dest);
+	    }
+        }
+    }
+    
+    //returns number of vertices in DAG
+    public int V(){
+        return V;
+    }
+    
+    //returns number of edges in DAG
+    public int E(){
+        return E;
+    }
+    
+    //throws illegal exception if the vertex put in, is out of bounds
+    private void validateVertex(int v){
+        if((v<0)||(v>=V)){
+            throw new IllegalArgumentException("Edgesless than one means no verices are joined, and if there is a cycle it cannot be moved");
+        }
+    }
+    
+    //adds directed edge from v to w
+    public void addEdge(int v, int w){
+        validateVertex(v);
+        validateVertex(w);
+        adj[v][w]=1;
+        indegree[w]++;
+        outdegree[v]++;
+        E++;
+    }
+    
+    //Removes an edge from v to w
+    public void removeEdge(int v, int w){
+        validateVertex(v);
+        validateVertex(w);
+        adj[v][w]=0;
+        indegree[w]--;
+        outdegree[v]--;
+        E--;
+    }
+    
+    //returns the number of directed edges out of vertex v
+    public int outdegree(int v){
+    	validateVertex(v);
+    	return outdegree[v];
+    }
+    
+    //returns the number of directed edges into vertex v
+    public int indegree(int v){
+    	validateVertex(v);
+    	return indegree[v];
+    }
+    
+    //returns the vertices adjacent from vertex v
+    public int[] adj(int v){
+    	validateVertex(v);
+    	int[] temp = new int[outdegree[v]];
+    	int count =0;
+    	for(int i=0;i<V;i++){
+    		if(adj[v][i]==1){
+    			temp[count]=i;
+    			count++;
+    	    }
+	}
+	return temp;
+    }
+    
+    //returns true if the graph contains acycle, else false
+    public boolean hasCycle(){
+	boolean hasCycle=false;
+	int count = 0;
+	for(int i =0;i<V;i++){
+		visited[count]=i;
+		for(int j = 0; j<V;j++){
+			for(int k=0;k<V;k++){
+				if(visited[k]==j && adj[i][j]==1){
+					hasCycle=true;
+					return hasCycle;
+				}
+			}	
 		}
+		count++;
 	}
-}
-
-public class LCADAG {
-	
-	// Perform DFS on graph and set departure time of all
-		// vertices of the graph
-	public static int DFS(Graph graph,int v,boolean[]discovered,int[]departure,int time){
-		// mark current node as discovered
-				discovered[v] = true;
-
-				// do for every edge (v -> u)
-				for (int u : graph.adjList.get(v))
-				{
-					// u is not discovered
-					if (!discovered[u])
-						time = DFS(graph, u, discovered, departure, time);
-				}
-
-				// ready to backtrack
-				// set departure time of vertex v
-				departure[v] = time++;
-
-				return time;
+	return hasCycle;
 	}
-	
-	// returns true if given directed graph is DAG
-		public static boolean isDAG(Graph graph, int N)
-		{
-			// stores vertex is discovered or not
-			boolean[] discovered = new boolean[N];
-
-			// stores departure time of a vertex in DFS
-			int[] departure = new int[N];
-
-			int time = 0;
-
-			// Do DFS traversal from all undiscovered vertices
-			// to visit all connected components of graph
-			for (int i = 0; i < N; i++)
-				if (discovered[i] == false)
-					time = DFS(graph, i, discovered, departure, time);
-
-			// check if given directed graph is DAG or not
-			for (int u = 0; u < N; u++)
-			{
-				// check if (u, v) forms a back-edge.
-				for (int v : graph.adjList.get(u))
-				{
-					// If departure time of vertex v is greater
-					// than equal to departure time of u, then
-					// they form a back edge
-
-					// Note that departure[u] will be equal to
-					// departure[v] only if u = v i.e vertex
-					// contain an edge to itself
-					if (departure[u] <= departure[v])
-						return false;
-				}
+    
+    
+    //This public function is used to find the lowest commond ancestor in a directed acyclic graph
+    public int findLCA(int v, int w){
+	validateVertex(v);
+	validateVertex(w);
+	hasCycle();
+	if(E>0 && !hasCycle()){
+		return LCAUtil(v,w);
+	}
+	else{
+		throw new IllegalArgumentException("This graph is not an acyclic graph.");
+	}
+    }
+    
+    //helper function for LCA
+    private int LCAUtil(int v, int w){
+	int[] vArr = new int[E];
+	int[] wArr = new int[E];
+	boolean[] vMarked = new boolean[V];
+	boolean[] wMarked = new boolean[V];
+	int vCount =0;
+	int wCount = 0;
+	vArr[vCount]=v;
+	wArr[wCount]=w;
+	for(int j=0; j<V;j++){//mark all vertices as not been visited yet
+		vMarked[j]=false;
+		wMarked[j]=false;
+	}
+	for(int i =0;i<V;i++){
+		vMarked[v] =true;
+		wMarked[w] =true;
+		for(int j = 0; j<V;j++){
+			if(adj[i][j]==1 && vMarked[i]){
+				vCount++;
+				vArr[vCount]=j;
+				vMarked[j]=true;
 			}
-
-			// no back edges
-			return true;
+			if(adj[i][j]==1 && wMarked[i]){
+				wCount++;
+				wArr[wCount]=j;
+				wMarked[j]=true;
+			}
+			if(wArr[wCount]==vArr[vCount]){
+				return wArr[wCount];
+			}
 		}
-
-		// Check if given digraph is a DAG (Directed Acyclic Graph) or not
-		public static void main(String[] args)
-		{
-			// List of graph edges as per above diagram
-			List<Edge> edges = Arrays.asList(
-					new Edge(0, 1), new Edge(0, 3), new Edge(1, 2),
-					new Edge(1, 3), new Edge(3, 2), new Edge(3, 4),
-					new Edge(3, 0), new Edge(5, 6), new Edge(6, 3)
-			);
-
-			// Set number of vertices in the graph
-			final int N = 7;
-
-			// create a graph from given edges
-			Graph graph = new Graph(edges, N);
-
-			// check if given directed graph is DAG or not
-			if (isDAG(graph, N))
-				System.out.println("Graph is DAG");
-			else
-				System.out.println("Graph is not DAG");
-
-		}
-
+	}
+	return -1;//returns -1 if no ancestor found
+   }  
 }

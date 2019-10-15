@@ -164,7 +164,7 @@ public class LCADAG {
 		if (!hasCycle()) {
 			return LCAUtil(v, w);
 		} else {
-			return -1;
+			throw new IllegalArgumentException("This graph is not an acyclic graph.");
 		}
 	}
 

@@ -1,4 +1,6 @@
                                               Assignment 1 for the module CS3012:
+       Branch called lowest common ancestor 2 for the implementation of part 2 of the Assignment.
+       It can found by changing the master branch to this branch called lowest common ancestor 2
                                               
                                                      Lowest Common Ancestor: 
 
@@ -12,6 +14,8 @@
  
  Requirements: To enhance your previous LCA solution, implementing as a branch that you must ultimately merge with your master branch, 
  an implementation of LCA that can work for graphs structured in directed acyclic form.
+ 
+ 
  
                                             Biography of an influential software engineer:
                                             

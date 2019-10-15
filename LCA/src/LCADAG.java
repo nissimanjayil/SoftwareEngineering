@@ -11,7 +11,7 @@ public class LCADAG{
     //constructor to initialize and empty graph with size V
     public LCADAG(int V){
         if(V<0){
-            throw new IllegalArgumentException("Number of vertices in the DAG must be greater than 0.");
+            System.out.print("Number must be greater than zero");
         }
         else{
             this.V = V;
@@ -39,10 +39,10 @@ public class LCADAG{
         return E;
     }
     
-    //throws illegal exception if the vertex put in, is out of bounds
-    private void validateVertex(int v){
+    
+    public void validateVertex(int v){
         if((v<0)||(v>=V)){
-            throw new IllegalArgumentException("Edgesless than one means no verices are joined, and if there is a cycle it cannot be moved");
+            System.out.println(-1);
         }
     }
     

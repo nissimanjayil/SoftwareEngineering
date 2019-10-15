@@ -116,16 +116,51 @@ public class LCADAGTEST {
 	
 	@Test
 	public void testHasCycle(){
+		LCADAG graph =new LCADAG(6);
+		graph.addEdge(0, 1);
+		graph.addEdge(1, 2);
+		graph.addEdge(2, 3);
+		graph.addEdge(3, 4);
+		assertEquals(false,graph.hasCycle());
 		
+		LCADAG graph2 =new LCADAG(7);
+		graph2.addEdge(0, 1);
+		graph2.addEdge(0, 2);
+		graph2.addEdge(0, 3);
+		graph2.addEdge(2, 3);
+		graph2.addEdge(3, 1);
+		assertEquals(true,graph.hasCycle());
 	}
 	
-	@Test
+	
 	public void testFindLCA(){
+		LCADAG graph =new LCADAG(9);
+		graph.addEdge(0, 1);
+		graph.addEdge(1, 2);
+		graph.addEdge(2, 3);
+		graph.addEdge(3, 4);
+		graph.addEdge(4, 5);
+		graph.addEdge(5, 6);
 		
+		//This graph contains no cycle
+		assertEquals(false,graph.hasCycle());
+		assertEquals(3,graph.findLCA(2, 3));
+		
+		
+		//This graph contains cycle
+		LCADAG graph2 =new LCADAG(9);
+		graph2.addEdge(0, 1);
+		graph2.addEdge(0, 2);
+		graph2.addEdge(2, 3);
+		graph2.addEdge(3, 4);
+		graph2.addEdge(4, 1);
+		graph2.addEdge(4, 0);
+		
+		assertEquals(true,graph.hasCycle());
+		
+		//returns -1
+		assertEquals(-1,graph.findLCA(2, 3));
 	}
-	
- 	
-	
-	
+
 	
 }

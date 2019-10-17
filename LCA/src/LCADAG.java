@@ -18,7 +18,8 @@ public class LCADAG {
 	
 	public LCADAG(int V) {
 		if (V < 0) {
-			System.out.println("Number must be greater than zero");
+			throw new NullPointerException();
+			
 		} else {
 			this.V = V;
 			this.E = 0;
@@ -164,7 +165,7 @@ public class LCADAG {
 		if (!hasCycle()) {
 			return LCAUtil(v, w);
 		} else {
-			throw new IllegalArgumentException("This graph is not an acyclic graph.");
+			throw new NullPointerException();
 		}
 	}
 

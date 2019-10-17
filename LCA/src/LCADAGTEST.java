@@ -5,11 +5,11 @@ import org.junit.Test;
 public class LCADAGTEST {
 
 	// Test for lca dag constructor
-	@Test
+	@Test(expected = NullPointerException.class)
 	public void testLCADAGConstructor() {
 		LCADAG graph = new LCADAG(-1);
 
-		assertFalse("Number must be greater than zero", false);
+		assertNull(graph);
 	}
 
 	// test for v() function
@@ -31,12 +31,12 @@ public class LCADAGTEST {
 	}
 
 	// Test to see if a vertex is valid
-	@Test
+	@Test(expected= NullPointerException.class)
 	public void testValidVertex() {
 		LCADAG graph = new LCADAG(3);
 		graph.addEdge(0, 1);
 		graph.addEdge(1, 2);
-		assertTrue(true);
+		assertEquals(2, graph.E());
 
 		LCADAG graph2 = new LCADAG(-1);
 		assertEquals(0, graph2.E());
@@ -127,7 +127,7 @@ public class LCADAGTEST {
 		assertEquals(true, graph.hasCycle());
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = NullPointerException.class)
 	public void testLCA() {
 
 		LCADAG graph = new LCADAG(6);
@@ -148,7 +148,7 @@ public class LCADAGTEST {
 		assertEquals(true, graph.hasCycle());
 
 		//throws an illegal exception
-		assertEquals(false, graph.findLCA(1,2));
+		assertEquals(null, graph.findLCA(1,2));
 		
 
 	}

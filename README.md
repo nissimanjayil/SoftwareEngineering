@@ -1,8 +1,8 @@
-                                              Assignment 1 for the module CS3012:
+                                          Assignment 1 for the module CS3012:
        Branch called lowest common ancestor 2 for the implementation of part 2 of the Assignment.
        It can found by changing the master branch to this branch lowest common ancestor 2
                                               
-                                                     Lowest Common Ancestor: 
+                                              Lowest Common Ancestor: 
 
 
 •	Requirements: To implement a function that can calculate the lowest common ancestor in a graph, that may be structured as a binary tree. The grading focus is on your test code.
@@ -10,18 +10,18 @@
 •	Implemented in JAVA and JUNIT Test
 
 
-                                                     Lowest Common Ancestor 2:
+                                              Lowest Common Ancestor 2:
  
  Requirements: To enhance your previous LCA solution, implementing as a branch that you must ultimately merge with your master branch, 
  an implementation of LCA that can work for graphs structured in directed acyclic form.
  
  
  
-                                            Biography of an influential software engineer:
+                                         Biography of an influential software engineer:
                                             
  To produce a short (2-4 page) biography of a key software engineer, discussing the work and impact  of the individual.
 
-                                                              Setting up
+                                                     Setting up
 
 In Eclipse:
 
